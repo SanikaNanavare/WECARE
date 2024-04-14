@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Reminders</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- Custom Theme files -->
+<link href="css/style_sign.css" rel="stylesheet" type="text/css" media="all" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<!-- //Custom Theme files -->
+<!-- web font -->
+<link href="//fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i" rel="stylesheet">
+<!-- //web font -->
+  <style>
+    body {
+      background-color: #e9f0f5; /* Light blue background */
+    }
+    .reminder-container {
+      max-width: 500px;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #007bff; /* Blue heading */
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .btn-add {
+      background-color: #007bff; /* Blue button */
+      color: #fff;
+      border: none;
+    }
+    .btn-add:hover {
+      background-color: #0056b3; /* Darker blue on hover */
+    }
+    .card {
+      border: none;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    .card-body {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="reminder-container">
+  <h1>Health Reminders</h1>
+  <br>
+  <form id="reminderForm">
+    <div class="form-group">
+      <label for="reminderTitle">Reminder Title</label>
+      <input type="text" class="form-control" id="reminderTitle" placeholder="Enter reminder title">
+    </div>
+    <div class="form-group">
+      <label for="reminderDesc">Reminder Description</label>
+      <textarea class="form-control" id="reminderDesc" rows="3" placeholder="Enter reminder description"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="reminderDate">Date</label>
+      <input type="date" class="form-control" id="reminderDate">
+    </div>
+    <div class="form-group">
+      <label for="reminderTime">Time</label>
+      <input type="time" class="form-control" id="reminderTime">
+    </div>
+    <button type="submit" class="btn btn-add btn-block">Add Reminder</button>
+  </form>
+  <div id="reminderList" class="mt-4">
+    <!-- Reminder items will be displayed here -->
+  </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Custom JavaScript -->
+<script>
+  document.getElementById('reminderForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var title = document.getElementById('reminderTitle').value;
+    var desc = document.getElementById('reminderDesc').value;
+    var date = document.getElementById('reminderDate').value;
+    var time = document.getElementById('reminderTime').value;
+
+    if (title.trim() === '' || desc.trim() === '' || date === '' || time === '') {
+      alert('Please fill out all fields.');
+      return;
+    }
+
+    var reminderDateTime = new Date(date + 'T' + time);
+    var now = new Date();
+
+    if (reminderDateTime <= now) {
+      alert('Please select a future date and time for the reminder.');
+      return;
+    }
+
+    var reminderItem = `
+      <div class="card mb-2">
+        <div class="card-body">
+          <h5 class="card-title">${title}</h5>
+          <p class="card-text">${desc}</p>
+          <p class="card-text"><strong>Date:</strong> ${date}</p>
+          <p class="card-text"><strong>Time:</strong> ${time}</p>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('reminderList').innerHTML += reminderItem;
+    document.getElementById('reminderForm').reset();
+
+    // Calculate time difference in milliseconds
+    var timeDifference = reminderDateTime.getTime() - now.getTime();
+
+    // Schedule reminder
+    setTimeout(function() {
+      // Play buzz sound
+      var audio = new Audio('buzz.mp3');
+      audio.play();
+
+      // Show popup
+      alert('Reminder: ' + title);
+    }, timeDifference);
+  });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../Downloads/login-form-v15/Login_v15"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "WeCare1"
+	}
+}
